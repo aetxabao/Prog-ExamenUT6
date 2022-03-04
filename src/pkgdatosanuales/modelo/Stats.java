@@ -1,3 +1,5 @@
+package pkgdatosanuales.modelo;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -33,8 +35,23 @@ public class Stats {
      * @return colección TreeMap
      */
     private TreeMap<Integer, ArrayList<Integer>> datosMeses() {
-        //TODO: datosMeses
-        return null;
+        TreeMap<Integer, ArrayList<Integer>> datosMeses = new TreeMap<>();
+        for (Map.Entry<LocalDate, Integer> entrada : datosFechas.entrySet()) {
+            LocalDate fechaLocal = entrada.getKey();
+            int mes = fechaLocal.getMonthValue();
+            int dia = fechaLocal.getDayOfMonth();
+            int valor = entrada.getValue();
+
+            if (!datosMeses.containsKey(mes)){
+                ArrayList<Integer> datos = initArrayList(fechaLocal.lengthOfMonth());
+                datos.set(dia-1, valor);
+                datosMeses.put(mes, datos);
+            }else{
+                ArrayList<Integer> datos = datosMeses.get(mes);
+                datos.set(dia-1, valor);
+            }
+        }
+        return datosMeses;
     }
 
     /**
@@ -44,8 +61,12 @@ public class Stats {
      * @return ArrayList<Integer> de tamaño tam inicializado a ceros.
      */
     private static ArrayList<Integer> initArrayList(int tam) {
-        //TODO: initArrayList
-        return null;
+        return new ArrayList<>(Arrays.asList(new Integer[tam]));
+//        ArrayList<Integer> arrayList = new ArrayList<>(tam);
+//        for (int i = 0; i < tam; i++) {
+//            arrayList.add(0);
+//        }
+//        return arrayList;
     }
 
     /**
@@ -56,8 +77,18 @@ public class Stats {
      * @return tabla de valores en la que cada fila representa a un mes ORDENADO.
      */
     public String getDatosMeses() {
-        //TODO: getDatosMeses
-        return null;
+        StringBuilder sb = new StringBuilder();
+        TreeMap<Integer, ArrayList<Integer>> datosMeses = datosMeses();
+        for (Map.Entry<Integer, ArrayList<Integer>> entrada : datosMeses.entrySet()) {
+            int mes = entrada.getKey();
+            sb.append(String.format("%12s", nombreNumeroMes(mes)));
+            ArrayList<Integer> valores = entrada.getValue();
+            for (int i = 0; i < valores.size(); i++) {
+                sb.append(String.format("%4d", valores.get(i)));
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     /**
@@ -69,8 +100,9 @@ public class Stats {
      * @return p.ej. ENERO
      */
     private static String nombreNumeroMes(int mes) {
-        //TODO: nombreNumeroMes
-        return null;
+//        LocalDate ld = LocalDate.of(2021,mes,1);
+//        return ld.format(DateTimeFormatter.ofPattern("MMMM", new Locale("es","ES"))).toUpperCase();
+        return Mes.values()[mes-1].toString();
     }
 
     /**
@@ -98,8 +130,18 @@ public class Stats {
      *   15      10     8    10    14    13    4      2       13        5       15         13    <br/>
      */
     private LinkedHashMap<String, Integer> cuentaValoresMeses() {
-        //TODO: cuentaValoresMeses
-        return null;
+        LinkedHashMap<String, Integer> mediaValoresMeses = new LinkedHashMap<>();
+
+        TreeMap<Integer, ArrayList<Integer>> datosMeses = datosMeses();
+        for (Map.Entry<Integer, ArrayList<Integer>> entrada : datosMeses.entrySet()) {
+            int mes = entrada.getKey();
+            String nombreMes = nombreNumeroMes(mes);
+            ArrayList<Integer> valores = entrada.getValue();
+            int v = cuentaValores(valores);
+            mediaValoresMeses.put(nombreMes, v);
+        }
+
+        return mediaValoresMeses;
     }
 
     /**
@@ -111,8 +153,17 @@ public class Stats {
      *   15  10   8  10  14  13   4   2  13   5  15  13 <br/>
      */
     public String getCuentaValoresMeses() {
-        //TODO: getCuentaValoresMeses
-        return null;
+        StringBuilder sb = new StringBuilder();
+        LinkedHashMap<String, Integer> cuentaValoresMeses = cuentaValoresMeses();
+        for (String s : cuentaValoresMeses.keySet()) {
+            sb.append(" ").append(s.substring(0,3));
+        }
+        sb.append("\n");
+        for (Integer valor : cuentaValoresMeses.values()) {
+            sb.append(String.format("%4d", valor));
+        }
+        sb.append("\n");
+        return sb.toString();
     }
 
 }

@@ -1,3 +1,8 @@
+package pkgdatosanuales.test;
+
+import pkgdatosanuales.io.Reader;
+import pkgdatosanuales.modelo.Stats;
+
 public class TestDatosAnuales {
 
     public static void main(String[] args) {

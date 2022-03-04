@@ -1,3 +1,5 @@
+package pkgdatosanuales.modelo;
+
 public enum Mes {
     ENERO, FEBRERO, MARZO, ABRIL,
     MAYO, JUNIO, JULIO, AGOSTO,

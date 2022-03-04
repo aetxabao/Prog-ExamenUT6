@@ -1,4 +1,9 @@
+package pkgdatosanuales.io;
+
+import pkgdatosanuales.modelo.Stats;
+
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -29,8 +34,7 @@ public class Reader {
      * @return LocalDate
      */
     private static LocalDate getFechaLocal(String fecha) {
-        //TODO: getFechaLocal
-        return null;
+        return LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 
     /**
@@ -39,8 +43,7 @@ public class Reader {
      * @return entero
      */
     private static int getEnteroValor(String valor) {
-        //TODO: getEnteroValor
-        return 0;
+        return Integer.parseInt(valor);
     }
 
     /**
@@ -50,7 +53,7 @@ public class Reader {
      * @param valor
      */
     private static void registrarValor(HashMap<LocalDate, Integer> datosFechas, LocalDate fechaLocal, int valor) {
-        //TODO: registrarValor
+        datosFechas.put(fechaLocal, valor);
     }
 
 }
